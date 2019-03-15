@@ -94,5 +94,5 @@ func (metric Metric) AverageRequestTime() float64 {
 }
 
 func (metric Metric) String() string {
-	return fmt.Sprintln("Num. Routines:", metric.NumRoutines, "\nNum. Errors:", metric.NumErrors, "\nAvg. Request Rate:", metric.AverageRequestRate(), "request/s\nAvg. Request Time:", time.Duration(float64(int64(time.Second))*metric.AverageRequestTime()))
+	return fmt.Sprintln("Num. Routines:", metric.NumRoutines, "\nNum. Errors:", metric.NumErrors, "\nAvg. Request Rate:", metric.AverageRequestRate(), "request/s\nAvg. Request Time:", time.Duration(float64(int64(time.Second))*metric.AverageRequestTime()), "\nFastest Response:", metric.MinResponse, "\nSlowest Response:", metric.MaxResponse)
 }
