@@ -1,7 +1,6 @@
 package perf_client
 
 import (
-	"flag"
 	"fmt"
 	"math"
 	"time"
@@ -11,10 +10,11 @@ import (
 
 type Task func() error
 type timerfunc func() time.Duration
-
+/*
 func init() {
 	flag.Parse()
 }
+*/
 func timer() timerfunc {
 	start := time.Now()
 	return timerfunc(func() time.Duration {
