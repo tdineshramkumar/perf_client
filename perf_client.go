@@ -9,18 +9,6 @@ import (
 )
 
 type Task func() error
-type timerfunc func() time.Duration
-/*
-func init() {
-	flag.Parse()
-}
-*/
-func timer() timerfunc {
-	start := time.Now()
-	return timerfunc(func() time.Duration {
-		return time.Now().Sub(start)
-	})
-}
 
 type Metric struct {
 	Duration    time.Duration
@@ -35,15 +23,15 @@ func runtask(fn Task, testduration time.Duration) Metric {
 	m := Metric{MaxResponse: time.Duration(math.MinInt64), MinResponse: time.Duration(math.MaxInt64)}
 	var err error
 	var funcduration time.Duration
-	sessiontimer := timer()
-
-	for sessiontimer() < testduration {
-		functimer := timer()
+	start := time.Now()
+	var requestTime time.Time
+	for time.Now().Sub(start) < testduration {
+		requestTime = time.Now()
 		if err = fn(); err != nil {
 			m.NumErrors++
 			continue
 		}
-		funcduration = functimer()
+		funcduration = time.Now().Sub(requestTime)
 		m.Duration += funcduration
 		m.NumRequests++
 		if m.MaxResponse < funcduration {
